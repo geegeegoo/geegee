@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gee gee</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            /* Remove animation */
+        }
+
+        .rainbow-text {
+            font-size: 3em; /* Adjust size as needed */
+            font-weight: bold;
+            animation: rainbow 10s linear infinite; /* Adjust speed as needed */
+            margin-bottom: 10px; /* Add some space below the title */
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rainbow-text span {
+            background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        button {
+            background-color: #7289da;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #677bc4;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        small {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="rainbow-text">
+        <span></span><span> </span><span>G</span><span>E</span><span>E</span><span> </span><span>G</span><span>E</span><span>E</span><span> </span><span>I</span><span>S</span><span> </span><span>F</span><span>U</span><span>N</span><span>N</span><span>Y</span><span> </span><span>!</span><span>!</span><span>!</span><span>!</span><span>!</span><span>!</span><span>!</span>
+    </div>
+    <small>the bot is a real person, do not expect to be broken when it goes offline.</small>
+    <small>if it goes offline it means im busy or sleeping or at the hospital.</small>
+
+    <img src="https://files.catbox.moe/z5dr24.gif" alt="chuck mcgill">
+
+    <a href="https://discord.com/oauth2/authorize?client_id=1341067666537844786&permissions=8&integration_type=0&scope=bot" target="_blank">
+        <button>add gee gee</button>
+    </a>
+
+    <p>gee gee is funny!!!</p>
+
+</body>
+</html>
