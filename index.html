@@ -16,6 +16,8 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+           <script src="./oneko.js"></script>
+           <div id="oneko" aria-hidden="true" style="width: 32px; height: 32px; position: fixed; pointer-events: none; background-image: url(&quot;./oneko.gif&quot;); image-rendering: pixelated; left: 308.409px; top: 639.502px; background-position: -96px -96px;"></div>
         }
 
         h1 {
@@ -106,6 +108,9 @@
      ‎ <a href="https://geegeegoo.github.io/help/">guesser</a>
      </a>
      
+     ‎ <a href="https://geegeegoo.github.io/cheez/">top cheese</a>
+     </a>
+ 
 ‎ ‎ ‎ ‎ ‎ ‎ <a href="https://discord.com/oauth2/authorize?client_id=1341067666537844786&permissions=8&integration_type=0&scope=bot" target="_blank">
         <button>add gee gee</button>
     ‎ ‎ </a>
@@ -114,10 +119,277 @@
         <source src="https://files.catbox.moe/f7as4z.mp4" type="video/mp4">
     </video>
 
+ <p>gee gee is funny!!!</p>
     
+    <h1>miscellaneous</h1>
+            
+<p>club penguin</p>
+<img src="https://garbage.thecoolwebsite.com/club penguin yello-1.gif" style="cursor: pointer;">
+<br>
+<p class="yes">autistic</p><br>
+<img src="https://garbage.thecoolwebsite.com/autistic.png"><br>
+<img src="https://garbage.thecoolwebsite.com/autistic.png"><br>
+<img src="https://garbage.thecoolwebsite.com/autistic.png"><br>
+<img src="https://garbage.thecoolwebsite.com/autistic.png"><br>
+<img src="https://garbage.thecoolwebsite.com/autistic.png"><br>
+<img src="https://garbage.thecoolwebsite.com/autistic.png"><br>
+
+<canvas style="border:1px solid black;" id="game" width="800" height="600"></canvas>
+
+<script>
+
+    var x = 100;
+    var y = 100;
+    var vs = 0;
+    var canJump = false;
+
+    var pWidth = 50;
+    var pHeight = 50;
+
+    var left = false;
+    var right = false;
+    var up = false;
+    var down = false;
+    var jump = false;
+
+    var canvas = document.getElementById("game");
+    var ctx = canvas.getContext("2d");
+    var fps = 60;
+    var pSpeed = 4;
+
+    var wall = [
+      [305, 300, 100, 100],
+      [100, 400, 150, 150],
+      [200, 400, 50, 150],
+      [600, 150, 50, 750], // long wall
+      [820, 150, 50, 750],
+      [100, 500, 550, 50],
+      [750, 250, 70, 40],
+      [650, 150, 70, 40],
+      [650, 350, 70, 40],
+      [750, 450, 70, 40],
+      [650, 550, 70, 40],
+      [750, 650, 70, 40],
+      [650, 750, 70, 40],
+      [750, 860, 100, 40],
+    ];
+
+    function keydown(evt) {
+        switch (evt.keyCode) { 
+            case 82: reset()
+            case 32: jump = true; break; // space
+            case 37: left = true; break; // left arrow
+            case 39: right = true; break; // right arrow
+            case 38: up = true; jump = true; break; // up arrow
+            case 40: down = true; break; // down arrow
+        }
+    }
+
+    function keyup(evt) {
+        switch (evt.keyCode) {
+            case 82: reset()
+            case 32: jump = false; break; // space
+            case 37: left = false; break; // left arrow
+            case 39: right = false; break; // right arrow
+            case 38: up = false; jump = false; break; // up arrow
+            case 40: down = false; break; // down arrow
+        }
+    }
+
+    window.onload = function() {
+        document.addEventListener("keydown", keydown);
+        document.addEventListener("keyup", keyup);
+        setInterval(gameloop, 1000 / fps);
+    }
+
+    function reset() {
+        x = 100;
+        y = 100;
+        vs = 0;
+        /*jump = false;
+        left = false;
+        right = false;
+        up = false;
+        down = false;*/
+    }
+
+    function gameloop() {
+        gameLogic();
+        controlLogic();
+        paintScreen();
+    }
+
+    function intersectRect(r1l, r1u, r1r, r1d, r21, r2u, r2r, r2d) { 
+        return !(r21 > r1r || r2r < r1l || r2u > r1d || r2d < r1u);
+    }
+
+    function isColliding(potX, potY) {
+        var retVal = false;
+        for (var i = 0; i < wall.length; i++) {
+            if (intersectRect(potX, potY, potX + pWidth, potY + pHeight, wall[i][0],
+                wall[i][1], wall[i][0] + wall[i][2], wall[i][1] + wall[i][3])) {
+                retVal = true;
+                break;
+            }
+        }
+        return retVal;
+    }
+
+    function controlLogic() {
+        if (left && !isColliding(x - pSpeed, y))
+            x -= pSpeed;
+
+        if (right && !isColliding(x + pSpeed, y))
+            x += pSpeed;
+
+        if (jump && canJump) {
+            vs = -8;
+            canJump = false;
+        }
+
+        if (!jump && vs < -2) {
+            vs = -2;
+        }
+
+       /* if (up && !isColliding(x, y - pSpeed))
+            y -= pSpeed;
+
+        if (down && !isColliding(x, y + pSpeed))
+            y += pSpeed
+        */
+    }
+
+    function handleGravity() {
+
+        if (!isColliding(x, y + vs)) {
+            y += vs;
+            vs += .1;
+        }
+        else {
+            for (var i = vs; i > 0; i--) {
+                if (!isColliding(x, y + i)) {
+                    y += i;
+                    break;
+                }
+            }
+            if (isColliding(x, y + 1)) {
+                canJump = true
+            }
+            vs = 0;
+        }
+    }
+
+    function gameLogic() {
+        controlLogic();
+        handleGravity();
+    }
+
+	var camX = 0;
+	var camY = 0;
+	
+	function tweenTranslate(startX, startY, endX, endY, duration, callback) {
+		const startTime = performance.now();
+
+		function animate(time) {
+			const elapsedTime = time - startTime;
+			const progress = Math.min(elapsedTime / duration, 1);
+
+			const currentX = startX + (endX - startX) * progress;
+			const currentY = startY + (endY - startY) * progress;
+
+			callback(currentX, currentY);
+
+			if (progress < 1) {
+				requestAnimationFrame(animate);
+			}
+		}
+
+		requestAnimationFrame(animate);
+	}
 
 
-    <p>gee gee is funny!!!</p>
+	function gameloop() {
+		gameLogic();
+		controlLogic();
+		updateCamera();
+		paintScreen();
+	}
+
+	function updateCamera() {
+		const targetCamX = x - canvas.width / 2;
+		const targetCamY = y - canvas.height / 2;
+
+		tweenTranslate(camX, camY, targetCamX, targetCamY, 300, function(currentX, currentY) {
+			camX = currentX;
+			camY = currentY;
+		});
+	}
+
+	function paintScreen() {
+		ctx.fillStyle = "#653bff";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		ctx.save();
+		ctx.translate(-camX, -camY);
+
+		ctx.fillStyle = "#0F0";
+		ctx.fillRect(x, y, pWidth, pHeight);
+
+		ctx.fillStyle = "#000";
+		for (var i = 0; i < wall.length; i++) {
+			ctx.fillRect(wall[i][0], wall[i][1], wall[i][2], wall[i][3]);
+		}
+
+		ctx.font = "30px Comic Sans MS"
+		ctx.fillText("COOL GAME!!!!", 100, 100)
+
+		ctx.fillText("controls: ← → ↑ ↓", 100, 130)
+		ctx.fillText("r 2 reset", 100, 160)
+        ctx.fillText("reach the bottom to win!!!", 100, 200)
+
+		ctx.restore();
+	}
+    window.addEventListener('keydown', function(e) {
+        if(e.keyCode == 32 && e.target == document.body) {
+        e.preventDefault();
+        }
+    });
+    window.addEventListener("keydown", function(e) {
+        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+            e.preventDefault();
+        }
+    }, false);
+
+	
+</script>
+
+
+<h1>COUNTDOWN UNTIL NEW YEAR!!!!!</h1>
+
+<div id="countdown"></div>
+
+<script>
+      function updateCountdown() {
+        const targetDate = new Date((new Date().getFullYear() + 1) + "-01-01T00:00:00");
+    
+        const currentDate = new Date();
+    
+        const timeRemaining = targetDate - currentDate;
+    
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+    
+        const countdownElement = document.getElementById('countdown');
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+    
+      setInterval(updateCountdown, 1000);
+    
+      updateCountdown();
+</script>
+
 
     
 
